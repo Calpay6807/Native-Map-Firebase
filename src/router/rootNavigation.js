@@ -11,7 +11,8 @@ const Stack = createNativeStackNavigator();
 
 function RootNavigation() {
   return (
-    <Stack.Navigator screenOptions={{headerShown: false}}>
+    <Stack.Navigator
+      screenOptions={{headerShown: false, headerBackTitle: 'Geri'}}>
       <Stack.Screen name={HOME} component={HomeScreen} />
       <Stack.Screen
         options={{headerShown: true}}

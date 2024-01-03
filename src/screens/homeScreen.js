@@ -8,11 +8,13 @@ import {
 import React from 'react';
 import {AppColors} from '../thema/appColor';
 import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
-import {AddCircle, Additem, Note1, Notepad2} from 'iconsax-react-native';
+import {Notepad2} from 'iconsax-react-native';
 import {ADDNOTE, NOTELİST} from '../utils/routes';
+import FlatActionButton from '../components/ui/flatActionButton';
 const {width, height} = Dimensions.get('window');
 
-export default function HomeScreen({navigation}) {
+export default function HomeScreen(props) {
+  const {navigation} = props;
   return (
     <View style={{flex: 1}}>
       <StatusBar hidden />
@@ -49,30 +51,7 @@ export default function HomeScreen({navigation}) {
           latitudeDelta: 0.015,
           longitudeDelta: 0.0121,
         }}></MapView>
-      <View style={{position: 'absolute', bottom: 30, right: 10}}>
-        <TouchableOpacity
-          onPress={() => navigation.navigate(ADDNOTE)}
-          style={{
-            width: width * 0.18,
-            height: height * 0.08,
-            backgroundColor: AppColors.BEJ,
-            borderRadius: 200,
-            alignItems: 'center',
-            justifyContent: 'center',
-            opacity: 0.8,
-            shadowColor: '#000',
-            shadowOffset: {
-              width: 0,
-              height: 5,
-            },
-            shadowOpacity: 0.34,
-            shadowRadius: 6.27,
-
-            elevation: 10,
-          }}>
-          <Additem size={40} color={AppColors.BLACK} />
-        </TouchableOpacity>
-      </View>
+      <FlatActionButton {...props} />
     </View>
   );
 }
