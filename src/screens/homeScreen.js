@@ -7,10 +7,11 @@ import {
 } from 'react-native';
 import React from 'react';
 import {AppColors} from '../thema/appColor';
-import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
+import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import {Notepad2} from 'iconsax-react-native';
 import {ADDNOTE, NOTELİST} from '../utils/routes';
 import FlatActionButton from '../components/ui/flatActionButton';
+import {notes} from '../utils/mockData';
 const {width, height} = Dimensions.get('window');
 
 export default function HomeScreen(props) {
@@ -48,9 +49,16 @@ export default function HomeScreen(props) {
         region={{
           latitude: 37.78825,
           longitude: -122.4324,
-          latitudeDelta: 0.015,
-          longitudeDelta: 0.0121,
-        }}></MapView>
+        }}>
+        {notes.map((marker, index) => (
+          <Marker
+            key={index}
+            coordinate={marker.region}
+            title={marker.title}
+            description={marker.description}
+          />
+        ))}
+      </MapView>
       <FlatActionButton {...props} />
     </View>
   );

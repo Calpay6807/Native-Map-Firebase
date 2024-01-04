@@ -2,28 +2,27 @@
 
 import * as React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {ADDNOTE, HOME, NOTELİST} from '../utils/routes';
+import {ADDNOTE, EDİTNOTE, HOME, NOTEDETAİL, NOTELİST} from '../utils/routes';
 import HomeScreen from '../screens/homeScreen';
 import AddNote from '../note/addNote';
 import NoteList from '../note/noteList';
+import EditNote from '../note/editNote';
+import NoteDetail from '../note/noteDetail';
 
 const Stack = createNativeStackNavigator();
 
 function RootNavigation() {
   return (
-    <Stack.Navigator
-      screenOptions={{headerShown: false, headerBackTitle: 'Geri'}}>
-      <Stack.Screen name={HOME} component={HomeScreen} />
+    <Stack.Navigator screenOptions={{headerBackTitle: 'Geri'}}>
       <Stack.Screen
-        options={{headerShown: true}}
-        name={ADDNOTE}
-        component={AddNote}
+        options={{headerShown: false}}
+        name={HOME}
+        component={HomeScreen}
       />
-      <Stack.Screen
-        options={{headerShown: true}}
-        name={NOTELİST}
-        component={NoteList}
-      />
+      <Stack.Screen name={ADDNOTE} component={AddNote} />
+      <Stack.Screen name={NOTELİST} component={NoteList} />
+      <Stack.Screen name={EDİTNOTE} component={EditNote} />
+      <Stack.Screen name={NOTEDETAİL} component={NoteDetail} />
     </Stack.Navigator>
   );
 }

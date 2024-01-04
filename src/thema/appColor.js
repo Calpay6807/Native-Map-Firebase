@@ -4,4 +4,6 @@ export const AppColors = {
   TEXTCOLOR: 'white',
   BLACK: 'black',
   GRAY: 'gray',
+  NOTE: '#DED0B6',
+  DATE: '#304D30',
 };
