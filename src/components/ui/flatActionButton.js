@@ -2,14 +2,14 @@ import {Dimensions, StyleSheet, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {Additem} from 'iconsax-react-native';
 import {AppColors} from '../../thema/appColor';
-import {ADDNOTE} from '../../utils/routes';
+import {ADDNOTE, SELECETCORDİNATE} from '../../utils/routes';
 const {width, height} = Dimensions.get('window');
 
 const FlatActionButton = props => {
   const {navigation} = props;
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate(ADDNOTE)}
+      onPress={() => navigation.navigate(SELECETCORDİNATE)}
       style={{
         width: width * 0.18,
         height: height * 0.08,

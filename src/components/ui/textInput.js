@@ -1,16 +1,14 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 
-const AddNote = ({route}) => {
-  const {cordinate} = route?.params;
-  console.log(cordinate);
+const TextInput = () => {
   return (
     <View>
-      <Text></Text>
+      <Text>TextInput</Text>
     </View>
   );
 };
 
-export default AddNote;
+export default TextInput;
 
 const styles = StyleSheet.create({});
