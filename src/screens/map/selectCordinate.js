@@ -1,135 +1,109 @@
-import {
-  Dimensions,
-  StatusBar,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+//import liraries
 import React, {useState} from 'react';
-import {AppColors} from '../../thema/appColor';
-import MapView, {Marker} from 'react-native-maps';
-import {
-  ArrowCircleDown2,
-  ArrowLeft3,
-  ArrowRight,
-  ArrowRight3,
-  Map,
-  Notepad2,
-} from 'iconsax-react-native';
+import {View, StyleSheet, TouchableOpacity, SafeAreaView} from 'react-native';
+import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
+
+import {Map, ArrowCircleRight2} from 'iconsax-react-native';
+import {useNavigation} from '@react-navigation/native';
 import {ADDNOTE} from '../../utils/routes';
-import CostumeMarker from '../../components/maps/costume-marker';
+import {AppColors} from '../../thema/appColor';
 
-const {width, height} = Dimensions.get('window');
+// create a component
+const SelectCordinate = ({route}) => {
+  const navigation = useNavigation();
+  const [coordinate, setCordinate] = useState(null);
+  const [mapType, setMapType] = useState('standard');
 
-export default function SelecetCordinate(props) {
-  const {navigation} = props;
-  const [cordinates, setCordinate] = useState([]);
-  const [mapTypes, setMapType] = useState('hybrid');
   const changeMapType = () => {
-    try {
-      if (mapTypes === 'standard') setMapType('hybrid');
-      else setMapType('standard');
-    } catch (error) {
-      console.error('MapType değiştirilirken hata oluştu:', error);
-    }
+    if (mapType == 'standard') setMapType('hybrid');
+    else setMapType('standard');
   };
-  const handleSetCordinates = region => {
-    if (cordinates.length == 0) setCordinate([...cordinates, region]);
+  const handleMarkerPress = e => {
+    const {coordinate} = e?.nativeEvent;
+    setCordinate(coordinate);
   };
   return (
-    <View style={{flex: 1}}>
-      <StatusBar hidden />
-      <View style={{zIndex: 999}}>
+    <SafeAreaView style={{flex: 1}}>
+      <View style={styles.container}>
         <TouchableOpacity
           onPress={() => changeMapType()}
           style={{
+            width: 70,
+            height: 70,
             position: 'absolute',
             top: 20,
             left: 10,
             zIndex: 99,
-            width: width * 0.18,
-            height: height * 0.08,
-            backgroundColor: AppColors.WHITE,
+            backgroundColor:
+              mapType == 'standart' ? AppColors.WHITE : AppColors.BLUE,
             borderRadius: 200,
-            alignItems: 'center',
             justifyContent: 'center',
-            opacity: 0.8,
+            alignItems: 'center',
             shadowColor: '#000',
             shadowOffset: {
               width: 0,
-              height: 5,
+              height: 4,
             },
-            shadowOpacity: 0.34,
-            shadowRadius: 6.27,
-
-            elevation: 10,
+            shadowOpacity: 0.3,
+            shadowRadius: 4.65,
+            elevation: 8,
           }}>
-          <Map size={40} color={AppColors.BLACK} />
+          <Map
+            size={35}
+            color={mapType == 'standart' ? AppColors.BLACK : AppColors.WHITE}
+          />
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() =>
-            cordinates.length == 0
-              ? null
-              : navigation.navigate(ADDNOTE, {cordinate: cordinates})
+            navigation.navigate(ADDNOTE, {
+              cordinate: coordinate ? coordinate : currentPosition,
+              type: 'Add',
+            })
           }
           style={{
+            width: 70,
+            height: 70,
             position: 'absolute',
+            bottom: 20,
             right: 10,
             zIndex: 99,
-            top: 20,
-            width: width * 0.18,
-            height: height * 0.08,
-            backgroundColor:
-              cordinates.length == 0 ? AppColors.GRAY : AppColors.WHITE,
+            backgroundColor: AppColors.GREEN,
             borderRadius: 200,
-            alignItems: 'center',
             justifyContent: 'center',
-            opacity: 0.8,
+            alignItems: 'center',
             shadowColor: '#000',
             shadowOffset: {
               width: 0,
-              height: 5,
+              height: 4,
             },
-            shadowOpacity: 0.34,
-            shadowRadius: 6.27,
-
-            elevation: 10,
+            shadowOpacity: 0.3,
+            shadowRadius: 4.65,
+            elevation: 8,
           }}>
-          <ArrowRight size={40} color={AppColors.BLACK} />
+          <ArrowCircleRight2 size={35} color={AppColors.GRAY} />
         </TouchableOpacity>
+        <MapView
+          zoomControlEnabled={false}
+          mapType={mapType}
+          style={styles.map}
+          onPress={handleMarkerPress}>
+          {coordinate && (
+            <Marker coordinate={coordinate} title="Seçilen Konum" />
+          )}
+        </MapView>
       </View>
-      <MapView
-        onRegionChange={region => handleSetCordinates(region)}
-        mapType={mapTypes}
-        zoomControlEnabled={false}
-        initialRegion={{
-          latitude: 38.3607712,
-          longitude: 33.9182163,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        }}
-        {...cordinates.map((marker, index) => (
-          <Marker key={index} coordinate={marker.region}>
-            <CostumeMarker />
-          </Marker>
-        ))}
-        // provider={PROVIDER_GOOGLE} // remove if not using Google Maps
-        style={styles.map}></MapView>
-    </View>
+    </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: AppColors.WHITE,
-    ...StyleSheet.absoluteFillObject,
   },
   map: {
-    width: width * 1,
-    height: height * 1,
     ...StyleSheet.absoluteFillObject,
   },
 });
+
+//make this component available to the app
+export default SelectCordinate;
