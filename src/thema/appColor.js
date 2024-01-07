@@ -6,4 +6,5 @@ export const AppColors = {
   GRAY: 'gray',
   NOTE: '#DED0B6',
   DATE: '#304D30',
+  GREEN: '#65B741',
 };

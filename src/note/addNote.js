@@ -1,12 +1,21 @@
 import {StyleSheet, Text, View} from 'react-native';
-import React, {useState} from 'react';
+import React, {Component, useState} from 'react';
 import CostumeInputText from '../components/ui/textInput';
 import CostumeButton from '../components/ui/costumeButton';
 
 const AddNote = ({route}) => {
   const {cordinate} = route?.params;
-  const [title, setTitle] = useState('');
-  const [descrptions, setDescrption] = useState('');
+  const [title, setTitle] = useState(null);
+  const [descrptions, setDescrption] = useState(null);
+
+  const handeSaveNote = () => {
+    const form = {
+      title: title,
+      descrptions: descrptions,
+      region: cordinate,
+    };
+    console.log(form);
+  };
 
   return (
     <View>
@@ -20,7 +29,11 @@ const AddNote = ({route}) => {
         value={descrptions}
         onChangeText={text => setDescrption(text)}
       />
-      <CostumeButton title={'Gönder'} onPress={() => console.log(title)} />
+      <CostumeButton
+        disabled={!title || !descrptions}
+        title={'Kaydet'}
+        onPress={handeSaveNote}
+      />
     </View>
   );
 };
